@@ -1,9 +1,8 @@
-package jp.co.axa.apidemo.controllers;
+package jp.co.axa.apidemo.services;
 
+import jp.co.axa.apidemo.controllers.EmployeeController;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
-import jp.co.axa.apidemo.services.EmployeeService;
-import jp.co.axa.apidemo.services.EmployeeServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -11,32 +10,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmployeeControllerTest {
+public class EmployeeServiceImplTest {
 
     @Autowired
     private EmployeeRepository empRepo;
 
     // target class to test
     @Autowired
-    private EmployeeController empCtrller;
-
-    @Mock
-    private EmployeeService empSvc;
+    private EmployeeServiceImpl empSvc;
 
     // initial data set
     private Employee empInit;
@@ -55,30 +51,29 @@ public class EmployeeControllerTest {
     public void tearDown() throws Exception {
     }
 
-    // testing for getEmployee method
     @Test
-    public void test1_getEmployees() {
+    public void test1_setEmployeeRepository() {
         // save data directly via Repository save method
-        List<Employee> inputList = new ArrayList<Employee>();
-        inputList.add(empInit);
-
-        // create other Employee data to add to the list
-        Employee othrEmp = new Employee();
-        empInit.setId(1L);
-        empInit.setName("Uzumaki Naruto");
-        empInit.setSalary(5000000);
-        empInit.setDepartment("Ninja");
-
         empRepo.save(empInit);
 
-        // initialize actual result
+        // execute setEmployeeService method
+        empSvc.setEmployeeRepository(empRepo);
+
+        // assert if Employee 1L is get
+        assertNotNull(empSvc.getEmployee(1L));
+    }
+
+    @Test
+    public void test2_retrieveEmployees() {
+        // save data directly via Repository save method
+        empRepo.save(empInit);
+
+        // initialize list for actual result
         List<Employee> actualRes = new ArrayList<Employee>();
 
-        // execute getEmployees method in EmployeeController class
-        actualRes = empCtrller.getEmployees();
+        // execute retrieveEmployees method
+        actualRes = empSvc.retrieveEmployees();
 
-        // assert if Employee set data are retrieved
-        assertThat(actualRes.size(), is(1));
         assertThat(actualRes.get(0).getId(), is(1L));
         assertThat(actualRes.get(0).getName(), is("Uzumaki Naruto"));
         assertThat(actualRes.get(0).getSalary(), is(5000000));
@@ -86,23 +81,24 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void test2_getEmployee() {
+    public void test3_getEmployee() {
+        // save data directly via Repository save method
         empRepo.save(empInit);
 
         // initialize actual result
         Employee actualRes = new Employee();
 
         // execute getEmployee method
-        actualRes = empCtrller.getEmployee(1L);
+        actualRes = empSvc.getEmployee(1L);
 
         // assert if employee id 1L is retrieved
         assertThat(actualRes.getId(), is(1L));
     }
 
     @Test
-    public void test3_saveEmployee() {
+    public void test4_saveEmployee() {
         // execute saveEmployee method in EmployeeController class
-        empCtrller.saveEmployee(empInit);
+        empSvc.saveEmployee(empInit);
 
         // assert if Employee set data are saved
         assertNotNull(empRepo.findById(1L).get());
@@ -113,7 +109,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void test4_updateEmployee() {
+    public void test5_updateEmployee() {
         // save data directly via Repository save method
         empRepo.save(empInit);
 
@@ -125,7 +121,7 @@ public class EmployeeControllerTest {
         empUpdt.setDepartment("Pirate");
 
         // execute updateEmployee method
-        empCtrller.updateEmployee(empUpdt, 1L);
+        empSvc.updateEmployee(empUpdt);
 
         // assert if Employee 1L data is updated
         assertThat(empRepo.findById(1L).get().getName(), is("Monkey D. Luffy"));
@@ -134,27 +130,15 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void test5_deleteEmployee() {
+    public void test6_deleteEmployee() {
         // save data directly via Repository save method
         empRepo.save(empInit);
 
         // execute deleteEmployee method
-        empCtrller.deleteEmployee(1L);
+        empSvc.deleteEmployee(1L);
 
         // assert if Employee id 1L is deleted
         assertThat(empRepo.existsById(1L), is(false));
-    }
-
-    @Test
-    public void test6_setEmployeeService() {
-        // mock EmployeeService interface class, and return empInit data values
-        when(empSvc.getEmployee(1L)).thenReturn(empInit);
-
-        // execute setEmployeeService method
-        empCtrller.setEmployeeService(empSvc);
-
-        // assert if Employee 1L is get
-        assertNotNull(empSvc.getEmployee(1L));
     }
 
 }
