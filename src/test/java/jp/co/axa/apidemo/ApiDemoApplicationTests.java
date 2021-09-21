@@ -15,9 +15,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class ApiDemoApplicationTests {
 
-	//@Mock
-	//SpringApplication mockSpringApp;
-
 	@Test()
 	public void contextLoads() {
 		try {
