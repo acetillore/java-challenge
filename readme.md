@@ -60,10 +60,11 @@ and performed unit testing of those classes with 100% coverage
 - Added constraint (Not empty) condition to the Name parameter
 - Added EmployeeErrorController class for the /error response
 - Added SecurityConfig class for controller endpoints protection
-  username : user
-  password : password
+
+username : user
+password : password
 
 #### My Java experience
 I have around almost a year of work experience in Java, so I know some basics of Java language and Junit testing.
-But I am a beginner of Java and new to Spring boot framework, and I just learned it at least the basics with this coding exercises. 
+But I am a beginner of Java and new to Spring boot framework, and I just learned it at least the basics with this coding exercise. 
 And very interested to learn more about it and to implement/develop more implementations with it.
