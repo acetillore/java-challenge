@@ -50,3 +50,20 @@ Please let us know more about your Java experience in a few sentences. For examp
 - I have 3 years experience in Java and I started to use Spring Boot from last year
 - I'm a beginner and just recently learned Spring Boot
 - I know Spring Boot very well and have been using it for many years
+
+
+#### What I did in this project
+- Added Junit test classes for EmployeeController, Employee, EmployeeServiceImpl, ApiDemoApplication classes
+and performed unit testing of those classes with 100% coverage
+- Added cache processing for database calls. Also, I added a thread of 4sec just for the cache testing.
+- Added error handling process when fetching the data from the database. 
+- Added constraint (Not empty) condition to the Name parameter
+- Added EmployeeErrorController class for the /error response
+- Added SecurityConfig class for controller endpoints protection
+  username : user
+  password : password
+
+#### My Java experience
+I have around almost a year of work experience in Java, so I know some basics of Java language and Junit testing.
+But I am a beginner of Java and new to Spring boot framework, and I just learned it at least the basics with this coding exercises. 
+And very interested to learn more about it and to implement/develop more implementations with it.

@@ -86,7 +86,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void test2_getEmployee() {
+    public void test2_getEmployee() throws InterruptedException {
         empRepo.save(empInit);
 
         // initialize actual result
